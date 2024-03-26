@@ -12,7 +12,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
+//helllooo
 public class pong extends Application {
 private static int player_score = 0;
 private static int opponent_score = 0;
