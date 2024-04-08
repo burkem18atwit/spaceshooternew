@@ -5,8 +5,8 @@ import javafx.scene.paint.Color;
 
 public class CapitalTile extends PlanetTile {
 
-	public CapitalTile(double x1, double y1, Pane scene1) {
-		super(x1, y1, scene1);
+	public CapitalTile(double x1, double y1, Pane scene1,int tx,int ty) {
+		super(x1, y1, scene1,tx,ty);
 		this.health = 500;
 		this.maxHealth = 500;
 	}

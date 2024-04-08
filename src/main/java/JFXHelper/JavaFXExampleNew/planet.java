@@ -3,6 +3,7 @@ import javafx.util.Duration;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -12,7 +13,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
+import javafx.geometry.Point2D;
+//TODO: the javadoc bullshit
 @SuppressWarnings("unused")
 public class planet extends Application {
 	static int planetDiameter = 10;
@@ -20,24 +22,13 @@ public class planet extends Application {
 	static int tileSize = 50;
 	static int appHeight = 720;
 	static PlanetTile[][] tiles = new PlanetTile[planetDiameter][planetDiameter];
-	
+	private Timeline animation;
+	private Timeline op_animation;
 	
 	//TODO: fully works now!! lol just need to add a few things
-	public static  PlanetTile getTileFromCoords(int x1,int y1,Pane pane) {
-		//double tileEstX = 	(x1-(planetDiameter*tileSize)/2+appWidth/2-tileSize/2)/tileSize;
-		//double tileEstY = 	(y1-(planetDiameter*tileSize)/2+appHeight/2-tileSize/2)/tileSize;
+	public static  PlanetTile getTileFromCoords(double x1,double y1) {
 		int tileX = (int)	(x1-((-planetDiameter*tileSize)/2+appWidth/2-tileSize/2))/tileSize;
-		int tileY = (int) (y1-((-planetDiameter*tileSize)/2+appHeight/2-tileSize/2) )/tileSize   ;
-		//System.out.printf("%d,%d offset: %d,%d", tileEstXi,tileEstYi,(int) -(-planetDiameter*tileSize)/2+appWidth/2-tileSize/2,-(-planetDiameter*tileSize)/2+appHeight/2-tileSize/2 );
-		//return tiles[tileEstX][tileEstY];
-		Rectangle re = new Rectangle(x1,y1);
-		re.setHeight(10);
-		re.setWidth(10);
-		re.setX(x1);
-		re.setY(y1);
-	
-		pane.getChildren().add(re);
-		//return tiles[tileEstXi][tileEstYi];
+		int tileY = (int) (y1-((-planetDiameter*tileSize)/2+appHeight/2-tileSize/2) )/tileSize;
 		if (((tileX >= 0) && (tileX < planetDiameter)) && ((tileY >= 0) && (tileY < planetDiameter))) {
 			return tiles[tileX][tileY];
 		}
@@ -68,8 +59,6 @@ public class planet extends Application {
 		tileTypes[planetDiameter/2+2][planetDiameter/2-2] = "d";
 		tileTypes[planetDiameter/2-2][planetDiameter/2+2] = "d";
 		tileTypes[planetDiameter/2][planetDiameter/2] = "c";
-		//NEW tile types to add possibly: laser tile idk thats it
-		
 		
 		for (int i = 0; i < tiles.length; i++) {
 			for (int j = 0; j < tiles.length; j++) {
@@ -77,22 +66,23 @@ public class planet extends Application {
 				if (Math.pow(Math.pow(i-planetDiameter/2.0,2)+Math.pow(j-planetDiameter/2.0,2),0.5) < (planetDiameter)/2.0) {
 					int coordx = i*tileSize-(planetDiameter*tileSize)/2+appWidth/2-tileSize/2;
 					int coordy = j*tileSize-(planetDiameter*tileSize)/2+appHeight/2-tileSize/2;
+					//TODO: Change this to a map or something lol
 					if (tileTypes[i][j] != null) {
 						if (tileTypes[i][j] == "s") {
-							tiles[i][j] = new ShootingTile(coordx,coordy,pane);
+							tiles[i][j] = new ShootingTile(coordx,coordy,pane,i,j);
 							tiles[i][j].init(tileSize);
 						}
 						if (tileTypes[i][j] == "d") {
-							tiles[i][j] = new DeathTile(coordx,coordy,pane);
+							tiles[i][j] = new DeathTile(coordx,coordy,pane,i,j);
 							tiles[i][j].init(tileSize);
 						}
 						if (tileTypes[i][j] == "c") {
-							tiles[i][j] = new CapitalTile(coordx,coordy,pane);
+							tiles[i][j] = new CapitalTile(coordx,coordy,pane,i,j);
 							tiles[i][j].init(tileSize);
 						}
 					}
 					else {
-						tiles[i][j] = new NormalTile(coordx,coordy,pane);
+						tiles[i][j] = new NormalTile(coordx,coordy,pane,i,j);
 						tiles[i][j].init(tileSize);
 						tiles[i][j].initTile();
 					}
@@ -100,14 +90,22 @@ public class planet extends Application {
 			}
 		}
 		
-		getTileFromCoords(400,390,pane).squareItem.setFill(new Color(1.0, 1.0, 0, 0.5));
-		getTileFromCoords(00,360,pane);
+		getTileFromCoords(400,390).squareItem.setFill(new Color(1.0, 1.0, 0, 0.5));
+		getTileFromCoords(00,360);
 		
 		//PlanetTile tile = new PlanetTile(20,Math.random()*10,pane);
 		primaryStage.setTitle("Space Shooter");
 		
 		primaryStage.setResizable(false);
 		primaryStage.setScene(new Scene(pane, 1080, 720));
+		
 		primaryStage.show();
+		
+		
+		
+		animation = new Timeline(new KeyFrame(Duration.millis(50), e -> {Bullet item = new Bullet(100,100,30*Math.PI/180,pane); item.animate();}));
+		animation.setCycleCount(Timeline.INDEFINITE);
+		animation.setRate(1);
+		animation.play();
 	}
 }

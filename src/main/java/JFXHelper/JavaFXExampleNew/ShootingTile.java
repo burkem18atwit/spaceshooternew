@@ -9,8 +9,8 @@ import javafx.scene.shape.Circle;
 public class ShootingTile extends PlanetTile {
 	Circle shield;
 	
-	public ShootingTile(double x1, double y1, Pane scene1) {
-		super(x1, y1, scene1);
+	public ShootingTile(double x1, double y1, Pane scene1,int tx, int ty) {
+		super(x1, y1, scene1,tx,ty);
 		
 		this.maxHealth = 200;
 		this.health = 200;

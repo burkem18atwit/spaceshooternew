@@ -4,8 +4,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
 public class DeathTile extends PlanetTile {
-	public DeathTile(double x1, double y1, Pane scene1) {
-		super(x1, y1, scene1);
+	public DeathTile(double x1, double y1, Pane scene1,int tx, int ty) {
+		super(x1, y1, scene1, tx, ty);
 		this.health = 1;
 		this.maxHealth = 1;
 		// TODO Auto-generated constructor stub

@@ -21,10 +21,13 @@ public abstract class PlanetTile { //will be an abstract class
 	int maxHealth;
 	Boolean exists = false; //whether the object exists or not
 	double x, y;
+	int tileX,tileY;
 	Pane scene;
-	public PlanetTile(double x1, double y1,Pane scene1) {
+	public PlanetTile(double x1, double y1,Pane scene1,int tileX1,int tileY1) {
 		x = x1;
 		y = y1;
+		tileX = tileX1;
+		tileY = tileY1;
 		scene = scene1;
 	}
 	public void init(int tileSize2) {
@@ -61,9 +64,11 @@ public abstract class PlanetTile { //will be an abstract class
 	}
 	public void destroy() {
 		exists = false;
+		planet.tiles[tileX][tileY] = null;
 		scene.getChildren().remove(squareItem);
 		scene.getChildren().remove(textItem);
 		textItem = null;
+		
 		squareItem = null;
 		onDestruction();
 	}
