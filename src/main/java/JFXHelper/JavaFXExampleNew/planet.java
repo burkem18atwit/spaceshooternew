@@ -1,9 +1,14 @@
 package JFXHelper.JavaFXExampleNew;
+
 import javafx.util.Duration;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.scene.shape.Rectangle;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -53,7 +58,8 @@ public class planet extends Application {
 	
 	
 	public void start(Stage primaryStage) throws Exception {
-		
+		MouseEvent m = new MouseEvent(null, 0, 0, 0, 0, null, 0, false, false, false, false, false, false, false, false, false, false, false, false, null);
+		KeyEvent k = new KeyEvent(null, null, null, null, false, false, false, false);
 		Pane pane = new Pane();
 		
 		String[][] tileTypes = new String[planetDiameter][planetDiameter];
@@ -105,9 +111,26 @@ public class planet extends Application {
 		
 		//PlanetTile tile = new PlanetTile(20,Math.random()*10,pane);
 		primaryStage.setTitle("Space Shooter");
+		Scene s = new Scene(pane, 1080, 720);
 		
 		primaryStage.setResizable(false);
-		primaryStage.setScene(new Scene(pane, 1080, 720));
+		primaryStage.setScene(s);
 		primaryStage.show();
+		
+		Ship littlepooper = new Ship(500, 500);
+		
+		s.setOnMouseMoved(new EventHandler<MouseEvent>() {
+			@Override public void handle(MouseEvent event) {
+				littlepooper.angle(event.getSceneX(), event.getSceneY());
+			}
+		});
+		
+		s.setOnMousePressed(new EventHandler<MouseEvent>() {
+			@Override public void handle(MouseEvent event) {
+				if (event.isPrimaryButtonDown()) {
+					
+				}
+			}
+		});
 	}
 }
