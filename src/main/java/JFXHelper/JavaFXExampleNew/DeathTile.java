@@ -11,13 +11,12 @@ public class DeathTile extends PlanetTile {
 		// TODO Auto-generated constructor stub
 	}
 
-	//when this tile dies the player loses a lot of health haha
 	@Override
 	public void initTile() {
 		this.squareItem.setFill(new Color(1,0.5,0.5,1));
 	}
 	@Override
 	public void onDestruction() {
-		//thing that reduces player health goes here
+		//an event or function for a lose event would go here
 	}
 }

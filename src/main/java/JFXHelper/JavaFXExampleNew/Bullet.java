@@ -20,7 +20,7 @@ public class Bullet {
 		ball_y = y;
 		ball.setCenterX(x);
 		ball.setCenterY(x);
-		ball.setRadius(50);
+		ball.setRadius(12);
 		ball_dx = Math.cos(r)*bullet_speed;
 		ball_dy = Math.sin(r)*bullet_speed;
 		ball.setFill(new Color(0,0,0,1));
@@ -28,16 +28,16 @@ public class Bullet {
 		pane.getChildren().add(ball);
 		
 	}
-	public void animate() {
+	public void shoot() {
 		animation = new Timeline(new KeyFrame(Duration.millis(50), e -> this.moveBullet()));
 		animation.setCycleCount(Timeline.INDEFINITE);
 		animation.setRate(20.0);
 		animation.play();
 	}
 	public void moveBullet() {
-		tileHit = planet.getTileFromCoords(ball_x, ball_y);
+		tileHit = Game.getTileFromCoords(ball_x, ball_y);
 		if ((tileHit != null)) {
-			tileHit = planet.getTileFromCoords(ball_x+ball_dx*2, ball_y+ball_dy*2);
+			tileHit = Game.getTileFromCoords(ball_x+ball_dx*2, ball_y+ball_dy*2);
 			tileHit.damage(10);
 			System.out.println("tile damaged");
 			pane.getChildren().remove(ball);

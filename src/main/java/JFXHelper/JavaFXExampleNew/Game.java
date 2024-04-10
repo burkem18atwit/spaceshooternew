@@ -14,13 +14,14 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.geometry.Point2D;
-//TODO: the javadoc bullshit
+//TODO: the javadoc
 @SuppressWarnings("unused")
-public class planet extends Application {
+public class Game extends Application {
 	static int planetDiameter = 10;
 	static int appWidth = 1080;
 	static int tileSize = 50;
 	static int appHeight = 720;
+	final double BULLET_RELOAD = 0.5;
 	static PlanetTile[][] tiles = new PlanetTile[planetDiameter][planetDiameter];
 	private Timeline animation;
 	private Timeline op_animation;
@@ -35,6 +36,9 @@ public class planet extends Application {
 		else {
 			return null;
 		}
+	}
+	public static PlanetTile getTile(int x, int y) {
+		return tiles[x][y];
 	}
 	public static void main(String[] args) {
 		launch(args);
@@ -62,14 +66,12 @@ public class planet extends Application {
 		
 		for (int i = 0; i < tiles.length; i++) {
 			for (int j = 0; j < tiles.length; j++) {
-				//i = x, j = y
 				if (Math.pow(Math.pow(i-planetDiameter/2.0,2)+Math.pow(j-planetDiameter/2.0,2),0.5) < (planetDiameter)/2.0) {
 					int coordx = i*tileSize-(planetDiameter*tileSize)/2+appWidth/2-tileSize/2;
 					int coordy = j*tileSize-(planetDiameter*tileSize)/2+appHeight/2-tileSize/2;
-					//TODO: Change this to a map or something lol
 					if (tileTypes[i][j] != null) {
 						if (tileTypes[i][j] == "s") {
-							tiles[i][j] = new ShootingTile(coordx,coordy,pane,i,j);
+							tiles[i][j] = new ShieldingTile(coordx,coordy,pane,i,j);
 							tiles[i][j].init(tileSize);
 						}
 						if (tileTypes[i][j] == "d") {
@@ -90,10 +92,6 @@ public class planet extends Application {
 			}
 		}
 		
-		getTileFromCoords(400,390).squareItem.setFill(new Color(1.0, 1.0, 0, 0.5));
-		getTileFromCoords(00,360);
-		
-		//PlanetTile tile = new PlanetTile(20,Math.random()*10,pane);
 		primaryStage.setTitle("Space Shooter");
 		
 		primaryStage.setResizable(false);
@@ -103,9 +101,9 @@ public class planet extends Application {
 		
 		
 		
-		animation = new Timeline(new KeyFrame(Duration.millis(50), e -> {Bullet item = new Bullet(100,100,30*Math.PI/180,pane); item.animate();}));
+		animation = new Timeline(new KeyFrame(Duration.millis(50), e -> {Bullet item = new Bullet(100,100,30*Math.PI/180,pane); item.shoot();})); //this code spawns in a bullet, will be useful for spaceship
 		animation.setCycleCount(Timeline.INDEFINITE);
-		animation.setRate(1);
+		animation.setRate(Math.pow(BULLET_RELOAD*10, -1));
 		animation.play();
 	}
 }

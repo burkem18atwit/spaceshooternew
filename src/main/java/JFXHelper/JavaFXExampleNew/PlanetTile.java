@@ -20,8 +20,8 @@ public abstract class PlanetTile { //will be an abstract class
 	int tileSize;
 	int maxHealth;
 	Boolean exists = false; //whether the object exists or not
-	double x, y;
-	int tileX,tileY;
+	double x, y; //for position on game map
+	int tileX,tileY; //for position on array
 	Pane scene;
 	public PlanetTile(double x1, double y1,Pane scene1,int tileX1,int tileY1) {
 		x = x1;
@@ -61,10 +61,13 @@ public abstract class PlanetTile { //will be an abstract class
 		if (health <= 0) {
 			this.destroy();
 		}
+		if (health > maxHealth) {
+			health = maxHealth;
+		}
 	}
 	public void destroy() {
 		exists = false;
-		planet.tiles[tileX][tileY] = null;
+		Game.tiles[tileX][tileY] = null;
 		scene.getChildren().remove(squareItem);
 		scene.getChildren().remove(textItem);
 		textItem = null;
