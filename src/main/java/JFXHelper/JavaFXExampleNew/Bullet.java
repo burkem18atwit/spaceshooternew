@@ -20,7 +20,7 @@ public class Bullet {
 		ball_y = y;
 		ball.setCenterX(x);
 		ball.setCenterY(x);
-		ball.setRadius(12);
+		ball.setRadius(10);
 		ball_dx = Math.cos(r)*bullet_speed;
 		ball_dy = Math.sin(r)*bullet_speed;
 		ball.setFill(new Color(0,0,0,1));

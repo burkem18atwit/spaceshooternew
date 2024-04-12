@@ -17,6 +17,6 @@ public class DeathTile extends PlanetTile {
 	}
 	@Override
 	public void onDestruction() {
-		//an event or function for a lose event would go here
+		Game.LoseScreen.LoseCondition();
 	}
 }

@@ -27,7 +27,7 @@ public class ShieldingTile extends PlanetTile {
 		shield.setCenterX(x+25);
 		shield.setCenterY(y+25);
 		this.shield.setFill(new Color(0,1,1,0.2));
-		this.shield.setViewOrder(-10000000);
+		this.shield.setViewOrder(-100000);
 		this.squareItem.setFill(new Color(0.5,0.5,1,1));
 		scene.getChildren().add(shield);
 		

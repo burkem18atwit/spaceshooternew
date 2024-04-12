@@ -5,6 +5,7 @@ import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -25,6 +26,7 @@ public class Game extends Application {
 	static PlanetTile[][] tiles = new PlanetTile[planetDiameter][planetDiameter];
 	private Timeline animation;
 	private Timeline op_animation;
+	static Lose LoseScreen;
 	
 	//TODO: fully works now!! lol just need to add a few things
 	public static  PlanetTile getTileFromCoords(double x1,double y1) {
@@ -50,6 +52,41 @@ public class Game extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		
 		Pane pane = new Pane();
+		Ship littlebugger = new Ship(100,100,pane);
+		LoseScreen = new Lose(pane);
+		
+		//animation = new Timeline(new KeyFrame(Duration.millis(5), e -> {littlebugger.anim();})); //this code spawns in a bullet, will be useful for spaceship
+		//animation.setCycleCount(Timeline.INDEFINITE);
+		//animation.setRate(Math.pow(0.1, -1));
+		//animation.play();
+		Pane s = pane;
+		s.setOnMouseMoved(e -> {
+            littlebugger.angle(e.getSceneX(), e.getSceneY());
+        });
+
+        s.setOnMouseDragged(e -> {
+            littlebugger.angle(e.getSceneX(), e.getSceneY());
+        });
+
+        s.setOnMousePressed(e -> {
+            if (e.isSecondaryButtonDown()) {
+                littlebugger.accel(true);
+            } else if (e.isPrimaryButtonDown()) {
+                littlebugger.accel(false);
+            }
+        });
+
+        s.setOnKeyPressed(e -> {
+            if (e.getCode() == KeyCode.E) {
+                littlebugger.accel(false);
+            } else if (e.getCode() == KeyCode.SPACE) {
+                littlebugger.accel(true);
+            }
+        });
+        animation = new Timeline(new KeyFrame(Duration.millis(5), e -> {littlebugger.accel(true);})); //this code spawns in a bullet, will be useful for spaceship
+		animation.setCycleCount(Timeline.INDEFINITE);
+		animation.setRate(Math.pow(BULLET_RELOAD*10, -1));
+		animation.play();
 		
 		String[][] tileTypes = new String[planetDiameter][planetDiameter];
 		tileTypes[planetDiameter/2+1][planetDiameter/2] = "s";
@@ -101,7 +138,7 @@ public class Game extends Application {
 		
 		
 		
-		animation = new Timeline(new KeyFrame(Duration.millis(50), e -> {Bullet item = new Bullet(100,100,30*Math.PI/180,pane); item.shoot();})); //this code spawns in a bullet, will be useful for spaceship
+		animation = new Timeline(new KeyFrame(Duration.millis(50), e -> {Bullet item = new Bullet(littlebugger.top.getX(),littlebugger.top.getY(),littlebugger.angle*Math.PI/180,pane); item.shoot();})); //this code spawns in a bullet, will be useful for spaceship
 		animation.setCycleCount(Timeline.INDEFINITE);
 		animation.setRate(Math.pow(BULLET_RELOAD*10, -1));
 		animation.play();
