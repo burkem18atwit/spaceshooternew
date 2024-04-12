@@ -38,7 +38,7 @@ public class Bullet {
 		tileHit = Game.getTileFromCoords(ball_x, ball_y);
 		if ((tileHit != null)) {
 			tileHit = Game.getTileFromCoords(ball_x+ball_dx*2, ball_y+ball_dy*2);
-			tileHit.damage(10);
+			tileHit.damage(35);
 			System.out.println("tile damaged");
 			pane.getChildren().remove(ball);
 			animation.stop();
